@@ -1,22 +1,23 @@
 # Rihanna Training App
 
-App statica per la scheda atleta Rihanna.
+Statische App fur die Athletin Rihanna.
 
-## Contenuto
+## Inhalt
 
-- `index.html`: app completa con schede workout May-June, dieta e timer.
+- `index.html`: komplette App mit Trainingsplan Mai-Juni, Ernahrung und Timer.
 
-## Funzioni
+## Funktionen
 
-- Day 1 Push, Day 2 Pull, Day 3 Legs.
-- Timer pausa globale e timer tra serie/esercizi.
-- Salvataggio locale dei pesi, ripetizioni, note e check serie.
-- Storico sessioni.
-- Grafico progressi per esercizio.
-- Alimentazione May-June con giorni workout, giorni off, note extra e fonti proteiche economiche.
+- Tag 1 Push, Tag 2 Pull, Tag 3 Beine.
+- Pausentimer global und zwischen Satzen/Uebungen.
+- Freie Timer-Einstellung mit Minuten und Sekunden.
+- Lokale Speicherung von Gewicht, Wiederholungen, Notizen und Satz-Checks.
+- Trainingsverlauf.
+- Fortschrittsgrafik pro Ubung.
+- Ernahrung Mai-Juni mit Trainingstagen, freien Tagen, Zusatznotizen und gunstigen Proteinquellen.
 
-## Uso
+## Nutzung
 
-Apri `index.html` nel browser.
+`index.html` im Browser offnen.
 
-I dati restano salvati sul dispositivo tramite local storage.
+Die Daten bleiben per Local Storage auf dem Gerat gespeichert.
