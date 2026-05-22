@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rihanna Training</title>
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23101318"/><text x="32" y="41" text-anchor="middle" font-family="Arial" font-size="26" font-weight="900" fill="%23f2c36b">R</text></svg>'>
+  <meta name="theme-color" content="#101318">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    :root{
+      --bg:#101318;
+      --panel:#171c24;
+      --panel2:#202734;
+      --line:#303846;
+      --text:#f7f8fb;
+      --muted:#aeb7c7;
+      --accent:#f2c36b;
+      --accent2:#ffe0a2;
+      --ok:#7bdc95;
+      --bad:#ff9a9a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Arial,sans-serif;
+      background:#101318;
+      color:var(--text);
+      min-height:100dvh;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:16px 14px 34px}
+    .hero{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(135deg,#161a22,#101318 60%,#242b36);
+      padding:16px;
+      box-shadow:0 14px 34px rgba(0,0,0,.28);
+    }
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand-logo{
+      width:64px;height:64px;object-fit:contain;border-radius:14px;
+      background:#111720;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+      color:var(--accent);font-size:28px;font-weight:900
+    }
+    h1{margin:0;font-size:28px;line-height:1.05}
+    .sub{color:var(--muted);margin-top:6px;font-size:14px;line-height:1.45}
+    .status{
+      margin-top:12px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
+      background:#121821;color:#ead29d;font-size:13px
+    }
+    .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+    .btn,.btn-dark{
+      appearance:none;border:none;border-radius:12px;padding:12px 11px;font-size:15px;
+      font-weight:800;cursor:pointer
+    }
+    .btn{color:#14100a;background:linear-gradient(180deg,var(--accent2),var(--accent))}
+    .btn-dark{border:1px solid var(--line);color:var(--text);background:#121821;font-size:14px}
+    .btn-red{border-color:#663636;color:#ffd7d7;background:#211416}
+    .section{
+      display:none;margin-top:14px;background:rgba(23,28,36,.96);border:1px solid var(--line);
+      border-radius:18px;padding:16px
+    }
+    .section.active{display:block}
+    .title{margin:0 0 4px;font-size:22px}
+    .desc{margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.45}
+    .exercise,.diet-card,.history-item{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px
+    }
+    .exercise h3,.diet-card h3{margin:0 0 6px;font-size:18px}
+    .meta{color:var(--accent2);font-size:13px;margin-bottom:8px;font-weight:800}
+    .series{
+      display:grid;grid-template-columns:48px 1fr 1fr 1.2fr 42px;gap:8px;align-items:center;margin-bottom:8px
+    }
+    .badge{
+      border:1px solid var(--line);background:#111720;border-radius:10px;height:40px;
+      display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:800
+    }
+    input[type="number"],input[type="text"],textarea,select{
+      width:100%;border:1px solid var(--line);border-radius:10px;background:#0f141b;color:var(--text);
+      padding:9px 10px;font-size:16px;outline:none
+    }
+    textarea{min-height:82px;resize:vertical}
+    .check{height:40px;border:1px solid var(--line);border-radius:10px;background:#0f141b;display:flex;align-items:center;justify-content:center}
+    input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
+    .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;padding:4px 9px;border-radius:999px;border:1px solid var(--line);font-size:12px}
+    .pill.ok{color:var(--ok);border-color:rgba(123,220,149,.5)}
+    .timer-wrap{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:14px;padding:14px}
+    .timer-display{text-align:center;font-size:54px;line-height:1;font-weight:900;color:var(--accent2);margin:8px 0 2px}
+    .timer-label{text-align:center;color:var(--muted);font-size:13px}
+    .inline-timer{border:1px dashed rgba(242,195,107,.48);border-radius:12px;padding:10px;margin:10px 0;background:rgba(18,24,33,.72)}
+    .inline-timer-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .inline-timer-title{font-size:13px;color:var(--muted);font-weight:800}
+    .inline-timer-time{font-size:24px;color:var(--accent2);font-weight:900}
+    .inline-timer-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    canvas{width:100%;max-width:100%;background:#121821;border:1px solid var(--line);border-radius:14px;padding:10px}
+    .history-item strong{color:var(--accent2)}
+    .footer{margin-top:16px;text-align:center;color:var(--muted);font-size:12px}
+    @media (max-width:760px){
+      .nav{grid-template-columns:repeat(2,1fr)}
+      .series{grid-template-columns:44px 1fr 1fr}
+      .series .noteField{grid-column:1/4}
+      .series .check{grid-column:3/4}
+      h1{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="brand">
+        <div class="brand-logo" aria-label="Rihanna Training">R</div>
+        <div>
+          <h1>Rihanna Training</h1>
+          <div class="sub">Workout May-June + progressi + storico + timer pause. App separata per Rihanna.</div>
+        </div>
+      </div>
+      <div class="status" id="statusBox">Pronto.</div>
+      <div class="nav">
+        <button class="btn" onclick="openSection('day1')">Day 1 Push</button>
+        <button class="btn" onclick="openSection('day2')">Day 2 Pull</button>
+        <button class="btn" onclick="openSection('day3')">Day 3 Legs</button>
+        <button class="btn" onclick="openSection('diet')">Alimentazione</button>
+        <button class="btn" onclick="openSection('progress')">Progressi</button>
+        <button class="btn" onclick="openSection('history')">Storico</button>
+        <button class="btn" onclick="openSection('breakTimer')">Timer pausa</button>
+      </div>
+    </div>
+
+    <section id="day1" class="section active"></section>
+    <section id="day2" class="section"></section>
+    <section id="day3" class="section"></section>
+
+    <section id="diet" class="section">
+      <h2 class="title">Alimentazione</h2>
+      <p class="desc">Nutrition advice May-June organizzata per giorni di allenamento e giorni off.</p>
+      <div class="diet-card">
+        <h3>Workout Day - Moderate</h3>
+        <div class="meta">Totale giornaliero: 105 g proteine | 180-190 g carbo | 50 g grassi | circa 1900 kcal</div>
+        <p><strong>Breakfast</strong> - circa 400 kcal</p>
+        <div>Option 1: 200 ml milk, 50 g oats, 1 banana, 10 g peanut butter.</div>
+        <div>Option 2: 170 g Greek yogurt, 45 g cereal, 1 fruit.</div>
+        <div>Option 3: 2 eggs, 50 g bread, 1 apple.</div>
+        <p><strong>Lunch</strong> - circa 500 kcal</p>
+        <div>Option 1: 140 g chicken, 70 g rice raw, 10 g olive oil, vegetables.</div>
+        <div>Option 2: 150 g tuna, 220 g potatoes, vegetables.</div>
+        <div>Option 3: 2 eggs, 120 g egg whites, 60 g bread.</div>
+        <p><strong>Pre-Workout</strong> - circa 220 kcal</p>
+        <div>Option 1: 170 g Greek yogurt + banana.</div>
+        <div>Option 2: 60 g bread + 60 g turkey slices.</div>
+        <div>Option 3: 3 rice cakes + 15 g nuts.</div>
+        <p><strong>Dinner / Post-Workout</strong> - circa 480 kcal</p>
+        <div>Option 1: 150 g white fish + 220 g potatoes + vegetables + 10 g olive oil.</div>
+        <div>Option 2: 150 g chicken + 60 g bread + vegetables.</div>
+        <div>Option 3: 2 eggs + 150 g egg whites + 50 g rice.</div>
+      </div>
+      <div class="diet-card">
+        <h3>Day Off - Low</h3>
+        <div class="meta">Totale giornaliero: 100 g proteine | 135 g carbo | 50 g grassi | circa 1225 kcal</div>
+        <p><strong>Breakfast</strong> - circa 350 kcal</p>
+        <div>Option 1: 200 ml milk + 45 g oats + 10 g almonds.</div>
+        <div>Option 2: 170 g Greek yogurt + 40 g cereal.</div>
+        <div>Option 3: 2 eggs + 40 g bread.</div>
+        <p><strong>Lunch</strong> - circa 450 kcal</p>
+        <div>Option 1: 140 g chicken + 60 g rice + vegetables + 10 g olive oil.</div>
+        <div>Option 2: 150 g tuna + salad + 50 g bread.</div>
+        <div>Option 3: 150 g legumes + 50 g bread.</div>
+        <p><strong>Snack</strong> - circa 200 kcal</p>
+        <div>Option 1: Greek yogurt + fruit.</div>
+        <div>Option 2: 2 rice cakes + peanut butter.</div>
+        <div>Option 3: 40 g turkey slices + fruit.</div>
+        <p><strong>Dinner</strong> - circa 450 kcal</p>
+        <div>Option 1: 150 g salmon + vegetables.</div>
+        <div>Option 2: 150 g eggs/egg whites + vegetables + 10 g olive oil.</div>
+        <div>Option 3: 150 g white fish + salad + olive oil.</div>
+      </div>
+      <div class="diet-card">
+        <h3>Extra Notes</h3>
+        <div>Water: 2-2.5 L daily.</div>
+        <div>Sleep: 8+ hours.</div>
+        <div>1 free meal weekly is fine.</div>
+        <div>Focus on progressive overload in training.</div>
+        <div>Whey protein optional for convenience only.</div>
+      </div>
+      <div class="diet-card">
+        <h3>Best Low-Cost Protein Sources</h3>
+        <div>Eggs, chicken, tuna, Greek yogurt, milk, turkey slices, legumes.</div>
+      </div>
+      <div class="diet-card">
+        <h3>Note coach</h3>
+        <textarea id="diet_notes" placeholder="Note alimentazione, preferenze, integrazione, acqua, pasti liberi"></textarea>
+      </div>
+    </section>
+
+    <section id="progress" class="section">
+      <h2 class="title">Grafico Progressi</h2>
+      <p class="desc">Andamento medio dei carichi salvati nello storico.</p>
+      <div class="row"><select id="exerciseSelect" onchange="drawProgress()"></select></div>
+      <canvas id="progressChart" width="860" height="360"></canvas>
+      <p class="muted" id="progressText" style="margin-top:10px;">Salva una sessione per vedere il grafico.</p>
+    </section>
+
+    <section id="history" class="section">
+      <h2 class="title">Storico Sessioni</h2>
+      <p class="desc">Ogni salvataggio crea una voce con data e carichi medi.</p>
+      <div id="historyList"></div>
+      <div class="row">
+        <button class="btn-dark" onclick="exportBackup()">Esporta backup</button>
+        <label class="btn-dark" for="importFile" style="cursor:pointer">Importa backup</label>
+        <input id="importFile" type="file" accept=".json" style="display:none" onchange="importBackup(event)">
+        <button class="btn-dark btn-red" onclick="resetAllData()">Reset totale</button>
+      </div>
+    </section>
+
+    <section id="breakTimer" class="section">
+      <h2 class="title">Timer Pausa Workout</h2>
+      <p class="desc">Imposta la pausa e gestiscila con un tocco.</p>
+      <div class="timer-wrap">
+        <div class="timer-display" id="timerDisplay">01:30</div>
+        <div class="timer-label" id="timerState">Pronto</div>
+        <div class="row">
+          <button class="btn-dark" onclick="setBreakPreset(45)">45s</button>
+          <button class="btn-dark" onclick="setBreakPreset(60)">60s</button>
+          <button class="btn-dark" onclick="setBreakPreset(90)">90s</button>
+          <button class="btn-dark" onclick="setBreakPreset(120)">120s</button>
+          <button class="btn-dark" onclick="setBreakPreset(180)">180s</button>
+          <input id="breakSecondsInput" type="number" min="10" max="900" step="5" placeholder="Secondi">
+          <button class="btn-dark" onclick="applyBreakSeconds()">Imposta</button>
+        </div>
+        <div class="row">
+          <button class="btn" onclick="startBreakTimer()">Start</button>
+          <button class="btn-dark" onclick="pauseBreakTimer()">Pausa</button>
+          <button class="btn-dark btn-red" onclick="resetBreakTimer()">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">Dati salvati solo sul dispositivo. File necessario: index.html.</div>
+  </div>
+
+<script>
+const STORAGE_PREFIX = 'rihanna_training_app_';
+const HISTORY_KEY = STORAGE_PREFIX + 'history';
+const MAX_HISTORY_ITEMS = 300;
+const BREAK_TIMER_DEFAULT = 90;
+let breakTimerTotal = BREAK_TIMER_DEFAULT;
+let breakTimerRemaining = BREAK_TIMER_DEFAULT;
+let breakTimerInterval = null;
+let breakTimerRunning = false;
+
+const DAY_DATA = {
+  day1: {
+    title: 'Day 1 - Push',
+    desc: 'Glutes focus with controlled tempo and full range.',
+    key: 'Day 1 Push',
+    exercises: [
+      { name: 'Seated Leg Curl', muscle: 'Glutes/Hamstrings', block: 'PRE-BASE', sets: 4, reps: '15', tempo: '3/1/1', rest: 60, notes: 'Slow eccentric. Warm hamstrings and glutes properly.' },
+      { name: 'Barbell Hip Thrust', muscle: 'Glutes', block: 'BASE', sets: 3, reps: '8-10', tempo: '3/2/1', rest: 180, notes: 'Hard squeeze at lockout. No half reps.' },
+      { name: 'Dumbbell Bulgarian Split Squat', muscle: 'Glutes/Quads', block: 'LOAD', sets: 4, reps: '10-12', tempo: '3/1/1', rest: 120, notes: 'Long stride. Glute bias.' },
+      { name: 'Leg Press', muscle: 'Quads/Glutes', block: 'LOAD', sets: 3, reps: '12', tempo: '3/1/1', rest: 120, notes: 'Feet high. Full ROM.' },
+      { name: 'Cable Pull Through', muscle: 'Glutes', block: 'LOAD', sets: 4, reps: '15', tempo: '3/1/2', rest: 90, notes: 'Stretch the glutes fully every rep.' },
+      { name: 'Smith Machine Squat', muscle: 'Glutes/Quads', block: 'LOAD', sets: 4, reps: '12', tempo: '3/1/1', rest: 120, notes: 'Deep controlled reps only.' },
+      { name: 'Walking Lunges', muscle: 'Glutes', block: 'LOAD', sets: 3, reps: '12 each leg', tempo: '2/1/1', rest: 60, notes: 'Constant tension.' },
+      { name: 'Cable Kickback', muscle: 'Glutes', block: 'LOAD', sets: 3, reps: '15 each leg', tempo: '2/2/1', rest: 90, notes: 'Full squeeze. No momentum.' },
+      { name: 'Hip Abduction Machine', muscle: 'Glutes', block: 'LOAD', sets: 4, reps: '20', tempo: '2/2/2', rest: 45, notes: 'Burnout set. Partial reps at failure.' }
+    ]
+  },
+  day2: {
+    title: 'Day 2 - Pull',
+    desc: 'Shoulders, back, chest and arms with clean control.',
+    key: 'Day 2 Pull',
+    exercises: [
+      { name: 'Seated Dumbbell Shoulder Press', muscle: 'Shoulders', block: 'BASE', sets: 3, reps: '8-10', tempo: '3/1/1', rest: 180, notes: 'Controlled lowering. Explosive press.' },
+      { name: 'Lat Machine Pulldown', muscle: 'Back Width', block: 'LOAD', sets: 3, reps: '10-12', tempo: '3/1/2', rest: 120, notes: 'Stretch completely overhead.' },
+      { name: 'Chest Press', muscle: 'Chest', block: 'LOAD', sets: 2, reps: '10-12', tempo: '3/1/1', rest: 120, notes: 'Chest up. No bouncing.' },
+      { name: 'Single Arm Cable Lateral Raise', muscle: 'Side Delts', block: 'LOAD', sets: 3, reps: '15', tempo: '2/2/2', rest: 90, notes: 'Constant cable tension.' },
+      { name: 'Seated Cable Low Row With Triangle Bar', muscle: 'Back Thickness', block: 'LOAD', sets: 3, reps: '12', tempo: '3/1/1', rest: 120, notes: 'Pull elbows low and tight.' },
+      { name: 'Face Pull', muscle: 'Rear Delts', block: 'LOAD', sets: 3, reps: '15', tempo: '2/1/2', rest: 90, notes: 'Squeeze rear delts hard.' },
+      { name: 'Cable Rope Pushdown', muscle: 'Triceps', block: 'LOAD', sets: 3, reps: '12', tempo: '2/1/2', rest: 60, notes: 'Elbows locked. Full extension.' },
+      { name: 'Machine Lateral Raises With Extended Arms', muscle: 'Side Delts', block: 'LOAD', sets: 3, reps: '15 + hold', tempo: '2/2/2', rest: 60, notes: 'Last rep 10-sec hold, then release.' }
+    ]
+  },
+  day3: {
+    title: 'Day 3 - Legs',
+    desc: 'Legs and glutes with burnout finish.',
+    key: 'Day 3 Legs',
+    exercises: [
+      { name: 'Leg Extension', muscle: 'Quads', block: 'PRE-BASE', sets: 2, reps: '15', tempo: '3/1/1', rest: 60, notes: 'Controlled activation.' },
+      { name: 'Barbell Romanian Deadlift', muscle: 'Hamstrings/Glutes', block: 'BASE', sets: 3, reps: '8-10', tempo: '3/1/1', rest: 180, notes: 'Stretch hard.' },
+      { name: 'Hack Squat', muscle: 'Quads', block: 'LOAD', sets: 3, reps: '10-12', tempo: '3/1/1', rest: 120, notes: 'Deep ROM.' },
+      { name: 'Lying Leg Curl', muscle: 'Hamstrings', block: 'LOAD', sets: 3, reps: '12-15', tempo: '2/2/2', rest: 90, notes: 'Hard squeeze.' },
+      { name: 'Cable Kickback', muscle: 'Glutes', block: 'LOAD', sets: 3, reps: '15', tempo: '2/2/2', rest: 75, notes: 'Constant tension.' },
+      { name: 'Barbell Reverse Lunge', muscle: 'Glutes/Quads', block: 'LOAD', sets: 3, reps: '12 each leg', tempo: '3/1/1', rest: 120, notes: 'Long stride.' },
+      { name: 'Frog Pumps', muscle: 'Glutes', block: 'LOAD', sets: 3, reps: '25', tempo: '2/1/1', rest: 15, notes: 'Burnout.' },
+      { name: 'Hip Abduction Machine', muscle: 'Glutes', block: 'LOAD', sets: 3, reps: '20', tempo: '2/2/2', rest: 60, notes: 'No stopping after round.' },
+      { name: 'Glute Bridge Hold', muscle: 'Glutes', block: 'LOAD', sets: 3, reps: '15', tempo: '3/2/2', rest: 45, notes: 'Absolute glute burn. Hold 2 sec.' }
+    ]
+  }
+};
+
+function storageGet(key){ try{ return localStorage.getItem(key); }catch(err){ return null; } }
+function storageSet(key,value){ try{ localStorage.setItem(key,value); return true; }catch(err){ return false; } }
+function storageRemove(key){ try{ localStorage.removeItem(key); return true; }catch(err){ return false; } }
+function storageKeys(){ try{ return Object.keys(localStorage); }catch(err){ return []; } }
+function parseJSONSafe(raw,fallback){ if(raw === null || raw === undefined || raw === '') return fallback; try{ return JSON.parse(raw); }catch(err){ return fallback; } }
+function setStatus(text,kind){
+  const box=document.getElementById('statusBox');
+  if(!box) return;
+  box.textContent=text;
+  box.className='status';
+  if(kind==='bad') box.style.color='var(--bad)';
+  else if(kind==='ok') box.style.color='var(--ok)';
+  else box.style.color='#ead29d';
+}
+function allFields(){ return Array.from(document.querySelectorAll('input[type="number"],input[type="text"],input[type="checkbox"],textarea,select')); }
+function saveField(el){ if(!el || !el.id) return; storageSet(STORAGE_PREFIX + el.id, JSON.stringify(el.type === 'checkbox' ? el.checked : el.value)); }
+function loadFields(){
+  allFields().forEach(el => {
+    if(!el.id) return;
+    const value=parseJSONSafe(storageGet(STORAGE_PREFIX + el.id), undefined);
+    if(value !== undefined){ if(el.type === 'checkbox') el.checked=!!value; else el.value=value; }
+    el.addEventListener('input', () => saveField(el));
+    el.addEventListener('change', () => saveField(el));
+  });
+}
+function openSection(id){
+  const target=document.getElementById(id);
+  if(!target) return;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  target.classList.add('active');
+  if(id === 'history') renderHistory();
+  if(id === 'progress') drawProgress();
+}
+function safeId(text){ return text.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''); }
+function inlineTimerHtml(title, seconds){
+  return '<div class="inline-timer">' +
+    '<div class="inline-timer-head"><span class="inline-timer-title">' + title + '</span><span class="inline-timer-time timerMirrorDisplay">01:30</span></div>' +
+    '<div class="timer-label timerMirrorState">Pronto</div>' +
+    '<div class="inline-timer-actions">' +
+      '<button class="btn-dark" onclick="setBreakPreset(' + seconds + ');startBreakTimer()">Start</button>' +
+      '<button class="btn-dark" onclick="pauseBreakTimer()">Pausa</button>' +
+      '<button class="btn-dark btn-red" onclick="resetBreakTimer()">Reset</button>' +
+    '</div>' +
+  '</div>';
+}
+function exerciseHtml(ex, dayKey, exIndex){
+  const prefix=safeId(dayKey + '_' + ex.name);
+  let rows='';
+  for(let i=1;i<=ex.sets;i++){
+    const p=prefix + '_p' + i;
+    const r=prefix + '_r' + i;
+    const n=prefix + '_n' + i;
+    const c=prefix + '_c' + i;
+    rows += '<div class="series">' +
+      '<div class="badge">S' + i + '</div>' +
+      '<input type="number" step="0.5" id="' + p + '" placeholder="Peso">' +
+      '<input type="text" id="' + r + '" placeholder="Rep">' +
+      '<input class="noteField" type="text" id="' + n + '" placeholder="Note">' +
+      '<div class="check"><input type="checkbox" id="' + c + '"></div>' +
+    '</div>';
+    if(i < ex.sets) rows += inlineTimerHtml('Pausa prossima serie - ' + ex.rest + 's', ex.rest);
+  }
+  return '<div class="exercise">' +
+    '<h3>' + ex.name + '</h3>' +
+    '<div class="meta">' + ex.muscle + ' | ' + ex.block + ' | ' + ex.sets + ' x ' + ex.reps + ' | Tempo ' + ex.tempo + ' | Rest ' + ex.rest + 's</div>' +
+    '<div class="muted" style="margin-bottom:10px">' + ex.notes + '</div>' +
+    rows +
+  '</div>';
+}
+function renderDay(dayId){
+  const day=DAY_DATA[dayId];
+  const root=document.getElementById(dayId);
+  if(!day || !root) return;
+  let html='<h2 class="title">' + day.title + '</h2><p class="desc">' + day.desc + '</p>';
+  day.exercises.forEach((ex,index) => {
+    html += exerciseHtml(ex, day.key, index);
+    if(index < day.exercises.length - 1) html += inlineTimerHtml('Pausa prossimo esercizio', ex.rest);
+  });
+  html += '<div class="row"><button class="btn" onclick="saveSession(&quot;' + day.key + '&quot;)">Salva ' + day.key + '</button></div>';
+  root.innerHTML=html;
+}
+function buildSession(dayKey){
+  const day=Object.values(DAY_DATA).find(d => d.key === dayKey);
+  if(!day) return { day:dayKey, date:new Date().toLocaleString('it-IT'), exercises:[] };
+  const exercises=day.exercises.map(ex => {
+    const prefix=safeId(day.key + '_' + ex.name);
+    const values=[];
+    for(let i=1;i<=ex.sets;i++){
+      const raw=document.getElementById(prefix + '_p' + i)?.value;
+      const num=parseFloat(String(raw || '').replace(',','.'));
+      if(!isNaN(num)) values.push(num);
+    }
+    const avg=values.length ? +(values.reduce((a,b)=>a+b,0)/values.length).toFixed(1) : null;
+    return { name:ex.name, avgWeight:avg };
+  });
+  return { day:dayKey, date:new Date().toLocaleString('it-IT'), exercises };
+}
+function saveSession(dayKey){
+  const history=parseJSONSafe(storageGet(HISTORY_KEY), []);
+  const safe=Array.isArray(history) ? history : [];
+  safe.unshift(buildSession(dayKey));
+  if(safe.length > MAX_HISTORY_ITEMS) safe.length=MAX_HISTORY_ITEMS;
+  if(!storageSet(HISTORY_KEY, JSON.stringify(safe))){ setStatus('Memoria piena: salvataggio non riuscito','bad'); return; }
+  renderHistory(); drawProgress(); setStatus(dayKey + ' salvato nello storico','ok');
+}
+function renderHistory(){
+  const box=document.getElementById('historyList');
+  if(!box) return;
+  const history=parseJSONSafe(storageGet(HISTORY_KEY), []);
+  const safe=Array.isArray(history) ? history : [];
+  if(!safe.length){ box.innerHTML='<div class="history-item">Nessuna sessione salvata ancora.</div>'; return; }
+  box.innerHTML=safe.map(item => {
+    const rows=(item.exercises || []).filter(e => e.avgWeight !== null).map(e => '<div>' + e.name + ': <strong>' + e.avgWeight + ' kg</strong></div>').join('') || '<div class="muted">Nessun carico inserito.</div>';
+    return '<div class="history-item"><div><strong>' + item.day + '</strong> - ' + item.date + '</div><div style="margin-top:8px">' + rows + '</div></div>';
+  }).join('');
+}
+function exerciseNames(){
+  const names=[];
+  Object.values(DAY_DATA).forEach(day => day.exercises.forEach(ex => { if(!names.includes(ex.name)) names.push(ex.name); }));
+  return names;
+}
+function fillExerciseSelect(){
+  const sel=document.getElementById('exerciseSelect');
+  if(!sel) return;
+  sel.innerHTML=exerciseNames().map(name => '<option>' + name + '</option>').join('');
+}
+function drawProgress(){
+  const selectEl=document.getElementById('exerciseSelect');
+  const canvas=document.getElementById('progressChart');
+  const text=document.getElementById('progressText');
+  if(!selectEl || !canvas || !text) return;
+  const history=parseJSONSafe(storageGet(HISTORY_KEY), []);
+  const safe=(Array.isArray(history) ? history : []).slice().reverse();
+  const selected=selectEl.value;
+  const data=safe.map(h => {
+    const found=(h.exercises || []).find(e => e.name === selected);
+    return { label:(h.date || '').split(',')[0], value: found ? found.avgWeight : null };
+  }).filter(x => x.value !== null);
+  const ctx=canvas.getContext && canvas.getContext('2d');
+  if(!ctx){ text.textContent='Grafico non disponibile.'; return; }
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#121821'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(!data.length){
+    ctx.fillStyle='#aeb7c7'; ctx.font='18px Arial'; ctx.fillText('Salva almeno una sessione per vedere il grafico.',24,60);
+    text.textContent='Nessun dato salvato per ' + selected + '.'; return;
+  }
+  const pad=46, w=canvas.width-pad*2, h=canvas.height-pad*2;
+  const vals=data.map(d => d.value), min=Math.min(...vals), max=Math.max(...vals), range=Math.max(1,max-min);
+  ctx.strokeStyle='#3a4352'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,canvas.height-pad); ctx.lineTo(canvas.width-pad,canvas.height-pad); ctx.stroke();
+  ctx.strokeStyle='#f2c36b'; ctx.lineWidth=3; ctx.beginPath();
+  data.forEach((point,i) => {
+    const x=pad + (data.length === 1 ? w/2 : i*(w/(data.length-1)));
+    const y=canvas.height-pad - ((point.value-min)/range)*h;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+  data.forEach((point,i) => {
+    const x=pad + (data.length === 1 ? w/2 : i*(w/(data.length-1)));
+    const y=canvas.height-pad - ((point.value-min)/range)*h;
+    ctx.fillStyle='#ffe0a2'; ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#e9edf7'; ctx.font='11px Arial'; ctx.fillText(point.value + 'kg', x-15, y-10); ctx.fillText(point.label, x-18, canvas.height-pad+18);
+  });
+  const diff=+(data[data.length-1].value - data[0].value).toFixed(1);
+  text.textContent=selected + ': andamento totale ' + (diff>0 ? '+' : '') + diff + ' kg.';
+}
+function exportBackup(){
+  const data={};
+  storageKeys().forEach(key => { if(key.startsWith(STORAGE_PREFIX)){ const v=storageGet(key); if(v !== null) data[key]=v; } });
+  const blob=new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a=document.createElement('a'); const url=URL.createObjectURL(blob);
+  a.href=url; a.download='rihanna-training-backup.json'; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 500);
+  setStatus('Backup esportato','ok');
+}
+function importBackup(event){
+  const file=event && event.target ? event.target.files[0] : null;
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onerror=() => setStatus('Errore lettura backup','bad');
+  reader.onload=e => {
+    try{
+      const data=JSON.parse(e.target.result);
+      let imported=0;
+      Object.entries(data || {}).forEach(([k,v]) => { if(typeof k === 'string' && typeof v === 'string' && k.startsWith(STORAGE_PREFIX) && storageSet(k,v)) imported++; });
+      if(!imported){ setStatus('Backup vuoto o non compatibile','bad'); return; }
+      setStatus('Backup importato, ricarico pagina...','ok'); setTimeout(() => location.reload(), 300);
+    }catch(err){ setStatus('Backup non valido','bad'); }
+  };
+  reader.readAsText(file);
+}
+function resetAllData(){
+  if(!confirm('Vuoi davvero cancellare tutti i dati salvati?')) return;
+  storageKeys().forEach(key => { if(key.startsWith(STORAGE_PREFIX)) storageRemove(key); });
+  setStatus('Dati cancellati, ricarico pagina...','ok'); setTimeout(() => location.reload(), 200);
+}
+function formatSeconds(total){
+  const safe=Math.max(0, Math.floor(total || 0));
+  return String(Math.floor(safe/60)).padStart(2,'0') + ':' + String(safe%60).padStart(2,'0');
+}
+function updateBreakTimerUi(stateText){
+  const display=document.getElementById('timerDisplay');
+  const state=document.getElementById('timerState');
+  const label=stateText || (breakTimerRunning ? 'In corso' : 'In pausa');
+  if(display) display.textContent=formatSeconds(breakTimerRemaining);
+  if(state) state.textContent=label;
+  document.querySelectorAll('.timerMirrorDisplay').forEach(el => el.textContent=formatSeconds(breakTimerRemaining));
+  document.querySelectorAll('.timerMirrorState').forEach(el => el.textContent=label);
+}
+function ringBreakTimer(){
+  try{ if(navigator.vibrate) navigator.vibrate([180,120,180]); }catch(err){}
+  try{
+    const ctx=new (window.AudioContext || window.webkitAudioContext)();
+    const osc=ctx.createOscillator(); const gain=ctx.createGain();
+    osc.type='sine'; osc.frequency.value=880; gain.gain.value=0.06;
+    osc.connect(gain); gain.connect(ctx.destination); osc.start();
+    setTimeout(() => { osc.stop(); ctx.close(); }, 300);
+  }catch(err){}
+}
+function setBreakPreset(seconds){
+  const safe=Math.max(10, Math.min(900, parseInt(seconds,10) || BREAK_TIMER_DEFAULT));
+  breakTimerTotal=safe; breakTimerRemaining=safe;
+  if(breakTimerInterval){ clearInterval(breakTimerInterval); breakTimerInterval=null; }
+  breakTimerRunning=false; updateBreakTimerUi('Preset impostato');
+}
+function applyBreakSeconds(){
+  const value=parseInt(document.getElementById('breakSecondsInput')?.value,10);
+  if(!Number.isFinite(value)){ setStatus('Inserisci secondi validi per il timer','bad'); return; }
+  setBreakPreset(value); setStatus('Timer pausa aggiornato','ok');
+}
+function tickBreakTimer(){
+  breakTimerRemaining--;
+  if(breakTimerRemaining <= 0){
+    breakTimerRemaining=0; breakTimerRunning=false;
+    if(breakTimerInterval){ clearInterval(breakTimerInterval); breakTimerInterval=null; }
+    updateBreakTimerUi('Pausa finita'); ringBreakTimer(); setStatus('Pausa finita, prossima serie','ok'); return;
+  }
+  updateBreakTimerUi('In corso');
+}
+function startBreakTimer(){
+  if(breakTimerRunning) return;
+  if(breakTimerRemaining <= 0) breakTimerRemaining=breakTimerTotal;
+  breakTimerRunning=true; updateBreakTimerUi('In corso');
+  if(breakTimerInterval) clearInterval(breakTimerInterval);
+  breakTimerInterval=setInterval(tickBreakTimer,1000);
+}
+function pauseBreakTimer(){
+  breakTimerRunning=false;
+  if(breakTimerInterval){ clearInterval(breakTimerInterval); breakTimerInterval=null; }
+  updateBreakTimerUi('In pausa');
+}
+function resetBreakTimer(){
+  breakTimerRunning=false;
+  if(breakTimerInterval){ clearInterval(breakTimerInterval); breakTimerInterval=null; }
+  breakTimerRemaining=breakTimerTotal; updateBreakTimerUi('Pronto');
+}
+function boot(){
+  renderDay('day1'); renderDay('day2'); renderDay('day3');
+  fillExerciseSelect(); loadFields(); renderHistory(); drawProgress(); updateBreakTimerUi('Pronto');
+  setStatus('App Rihanna pronta','ok');
+}
+boot();
+</script>
+</body>
+</html>
